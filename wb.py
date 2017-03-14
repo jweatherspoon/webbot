@@ -4,6 +4,7 @@ import sys
 
 from selenium import webdriver
 from selenium.webdriver.common import keys
+from selenium.webdriver.remote.command import Command
 
 from commands import Commands
 
@@ -27,9 +28,19 @@ def main():
         print "\n" * 2, "Error Message Given: "
         print e
 
-    raw_input("Waiting to close and exit...")
-    b.close()
+    if IsOpen(b):
+        raw_input("Waiting to close and exit...")
+        b.close()
+
     c = None
+
+def IsOpen(browser):
+    try:
+        browser.get_window_position()
+        return True
+    except:
+        return False
+
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 import parse
 import time
 
-commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p']
+commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p', 'b', 'f', 'e']
 
 class Command:
 
@@ -14,6 +14,21 @@ class Command:
         self.__cmd = c
         self.__browser = b
 
+        self.__cmds = {
+            'u': self.__url,
+            'c': self.__click,
+            'x': self.__script,
+            'm': self.__max,
+            'w': self.__wait,
+            't': self.__type,
+            's': self.__size,
+            'p': self.__pos,
+            'b': self.__back,
+            'f': self.__forward,
+            'i': self.__implicit,
+            'e': self.__exit
+        }
+
     def execute(self):
         '''
         Executes whatever the command stored in this object is
@@ -21,41 +36,51 @@ class Command:
         c: The command argument
         b: The browser object to execute on
         '''
-        if self.__type == 'u':
-            if not self.__cmd.startswith("http://"):
-                self.__cmd = "http://" + self.__cmd
-            self.__browser.get(self.__cmd)
-        elif self.__type == 'm':
-            self.__browser.maximize_window()
-        elif self.__type == 'w':
-            sleepMs = int(self.__cmd)
-            time.sleep(sleepMs / 1000)
-        elif self.__type == 'c':
-            c = self.__splitCommand(',')
-            target, num = self.__searchFor(c)
-            if target and len(target) > num:
-                target[num].click()
-        elif self.__type == 't':
-            c = self.__splitCommand(',')
-            if len(c) > 3:
-                target, num = self.__searchFor(c)
-                text = c[3]
-                if target and len(target) > num:
-                    target[num].send_keys(text)
-        elif self.__type == 'x':
-            self.__browser.execute_script(self.__cmd)
-        elif self.__type == 's':
-            c = self.__splitCommand(',')
-            if(len(c) > 1):
-                w = int(c[0])
-                h = int(c[1])
-                self.__browser.set_window_size(w,h)
-        elif self.__type == 'p':
-            c = self.__splitCommand(',')
-            if len(c) > 1:
-                x = int(c[0])
-                y = int(c[1])
-                self.__browser.set_window_position(x,y)
+        self.__cmds[self.__type]()
+        # if self.__type == 'u':
+        #     if not self.__cmd.startswith("http://"):
+        #         self.__cmd = "http://" + self.__cmd
+        #     self.__browser.get(self.__cmd)
+        # elif self.__type == 'm':
+        #     self.__browser.maximize_window()
+        # elif self.__type == 'w':
+        #     sleepMs = int(self.__cmd)
+        #     time.sleep(sleepMs / 1000)
+        # elif self.__type == 'c':
+        #     c = self.__splitCommand(',')
+        #     target, num = self.__searchFor(c)
+        #     if target and len(target) > num:
+        #         target[num].click()
+        # elif self.__type == 't':
+        #     c = self.__splitCommand(',')
+        #     if len(c) > 3:
+        #         target, num = self.__searchFor(c)
+        #         text = c[3]
+        #         if target and len(target) > num:
+        #             target[num].send_keys(text)
+        # elif self.__type == 'x':
+        #     self.__browser.execute_script(self.__cmd)
+        # elif self.__type == 's':
+        #     c = self.__splitCommand(',')
+        #     if(len(c) > 1):
+        #         w = int(c[0])
+        #         h = int(c[1])
+        #         self.__browser.set_window_size(w,h)
+        # elif self.__type == 'p':
+        #     c = self.__splitCommand(',')
+        #     if len(c) > 1:
+        #         x = int(c[0])
+        #         y = int(c[1])
+        #         self.__browser.set_window_position(x,y)
+        # elif self.__type == 'b':
+        #     self.__browser.back()
+        # elif self.__type == 'f':
+        #     self.__browser.forward()
+        # elif self.__type == 'i':
+        #     t = int(self.__cmd)
+        #     self.__browser.implicit_wait(t)
+    def getType(self):
+        return self.__type
 
     def __splitCommand(self, delim):
         c = self.__cmd.split(delim)
@@ -79,6 +104,62 @@ class Command:
                 return res, avail
 
         return None
+
+    def __url(self):
+        if not self.__cmd.startswith("http://"):
+            self.__cmd = "http://" + self.__cmd
+        self.__browser.get(self.__cmd)
+
+    def __max(self):
+        self.__browser.maximize_window()
+
+    def __wait(self):
+        sleepMs = int(self.__cmd)
+        time.sleep(sleepMs / 1000)
+
+    def __click(self):
+        c = self.__splitCommand(',')
+        target, num = self.__searchFor(c)
+        if target and len(target) > num:
+            target[num].click()
+
+    def __type(self):
+        c = self.__splitCommand(',')
+        if len(c) > 3:
+            target, num = self.__searchFor(c)
+            text = c[3]
+            if target and len(target) > num:
+                target[num].send_keys(text)
+
+    def __script(self):
+        self.__browser.execute_script(self.__cmd)
+
+    def __size(self):
+        c = self.__splitCommand(',')
+        if(len(c) > 1):
+            w = int(c[0])
+            h = int(c[1])
+            self.__browser.set_window_size(w,h)
+
+    def __pos(self):
+        c = self.__splitCommand(',')
+        if len(c) > 1:
+            x = int(c[0])
+            y = int(c[1])
+            self.__browser.set_window_position(x,y)
+
+    def __back(self):
+        self.__browser.back()
+
+    def __forward(self):
+        self.__browser.forward()
+
+    def __implicit(self):
+        t = int(self.__cmd)
+        self.__browser.implicit_wait(t)
+
+    def __exit(self):
+        self.__browser.close()
 
     def __getSearchFunc(self, searchBy):
         func = None
@@ -130,10 +211,11 @@ class Commands:
         self.__cursor = 0
 
         results = parse.GetCommands(openfile)
-        for val in results:
-            cmd = self.__parseCommand(val)
+        for i in range(len(results)):
+            cmd = self.__parseCommand(results[i])
             if cmd:
-                self.__cmds.append(cmd)
+                if cmd.getType() != 'e' or i == len(results) - 1:
+                    self.__cmds.append(cmd)
 
     def executeNext(self):
         '''
