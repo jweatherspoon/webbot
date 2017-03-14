@@ -1,7 +1,7 @@
 import parse
 import time
 
-commands = ['u','c','s','i','m', 'w', 't']
+commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p']
 
 class Command:
 
@@ -42,8 +42,20 @@ class Command:
                 text = c[3]
                 if target and len(target) > num:
                     target[num].send_keys(text)
-        elif self.__type == 's':
+        elif self.__type == 'x':
             self.__browser.execute_script(self.__cmd)
+        elif self.__type == 's':
+            c = self.__splitCommand(',')
+            if(len(c) > 1):
+                w = int(c[0])
+                h = int(c[1])
+                self.__browser.set_window_size(w,h)
+        elif self.__type == 'p':
+            c = self.__splitCommand(',')
+            if len(c) > 1:
+                x = int(c[0])
+                y = int(c[1])
+                self.__browser.set_window_position(x,y)
 
     def __splitCommand(self, delim):
         c = self.__cmd.split(delim)
