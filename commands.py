@@ -1,7 +1,7 @@
 import parse
 import time
 
-commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p', 'b', 'f', 'e']
+commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p', 'b', 'f', 'e', 'i']
 
 class Command:
 
@@ -115,7 +115,7 @@ class Command:
 
     def __implicit(self):
         t = int(self.__cmd)
-        self.__browser.implicit_wait(t)
+        self.__browser.implicitly_wait(t)
 
     def __exit(self):
         self.__browser.close()

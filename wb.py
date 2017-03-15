@@ -30,7 +30,9 @@ def main():
 
     if IsOpen(b):
         raw_input("Waiting to close and exit...")
-        b.close()
+        try:
+            b.close()
+        except: pass
 
     c = None
 

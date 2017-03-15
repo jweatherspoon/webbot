@@ -2,6 +2,15 @@ NOTE:
     ALL ARGUMENTS WITH (int) FOLLOWING THEIR NAMES MUST HAVE
     INTEGER PARAMETERS TO AVOID A PROGRAM CRASH
 
+i:
+    Set the implicit wait time for the browser.
+    This is how long the browser will wait before crashing the
+    program if it cannot find the element specified.
+    This only needs to be set once!
+    ARGS:
+        s (int):
+            The implicit wait time for the browser in seconds.
+
 u:
     Go to url
     ARGS:
