@@ -1,5 +1,6 @@
 i(3)
 u(www.temp-mail.org)
-c(id, click-to-deleted)
+c(id, click-to-delete)
 c(id, click-to-copy, 0)
 u(www.google.com)
+T(name, q, 0, PASTE)

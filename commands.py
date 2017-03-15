@@ -1,7 +1,12 @@
 import parse
 import time
 
-commands = ['u', 'c', 'x', 'm', 'w', 't', 's', 'p', 'b', 'f', 'e', 'i']
+from selenium.webdriver.common.keys import Keys
+
+commands = [
+    'u', 'c', 'x', 'm', 'w', 't', 's',
+    'p', 'b', 'f', 'e', 'i', 'T'
+]
 
 class Command:
 
@@ -26,7 +31,8 @@ class Command:
             'b': self.__back,
             'f': self.__forward,
             'i': self.__implicit,
-            'e': self.__exit
+            'e': self.__exit,
+            'T': self.__typeSpecial
         }
 
     def execute(self):
@@ -119,6 +125,20 @@ class Command:
 
     def __exit(self):
         self.__browser.close()
+
+    def __typeSpecial(self):
+        c = self.__splitCommand(',')
+        if len(c) > 3:
+            target, num = self.__searchFor(c)
+            text = c[3]
+            if target and len(target) > num:
+                target = target[num]
+                if text == "COPY":
+                    target.send_keys(Keys.CONTROL, 'c')
+                elif text == "PASTE":
+                    target.send_keys(Keys.CONTROL, 'v')
+                else:
+                    target.send_keys(text)
 
     def __getSearchFunc(self, searchBy):
         func = None
