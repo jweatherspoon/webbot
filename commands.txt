@@ -119,7 +119,8 @@ T:
         cannot span multiple lines.
         Possible Commands:
             {COPY}: Send the ctrl-c command
-            {PASTE}: Send the ctrl-v command 
+            {PASTE}: Send the ctrl-v command
+            {SELECTALL}: Send the ctrl-a command 
 
 e:
     Close the browser

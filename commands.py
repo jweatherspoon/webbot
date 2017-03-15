@@ -133,10 +133,12 @@ class Command:
             text = c[3]
             if target and len(target) > num:
                 target = target[num]
-                if text == "COPY":
+                if text == "{COPY}":
                     target.send_keys(Keys.CONTROL, 'c')
-                elif text == "PASTE":
+                elif text == "{PASTE}":
                     target.send_keys(Keys.CONTROL, 'v')
+                elif text == "{SELECTALL}":
+                    target.send_keys(Keys.CONTROL, 'a')
                 else:
                     target.send_keys(text)
 
