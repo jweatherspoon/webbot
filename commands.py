@@ -37,48 +37,7 @@ class Command:
         b: The browser object to execute on
         '''
         self.__cmds[self.__type]()
-        # if self.__type == 'u':
-        #     if not self.__cmd.startswith("http://"):
-        #         self.__cmd = "http://" + self.__cmd
-        #     self.__browser.get(self.__cmd)
-        # elif self.__type == 'm':
-        #     self.__browser.maximize_window()
-        # elif self.__type == 'w':
-        #     sleepMs = int(self.__cmd)
-        #     time.sleep(sleepMs / 1000)
-        # elif self.__type == 'c':
-        #     c = self.__splitCommand(',')
-        #     target, num = self.__searchFor(c)
-        #     if target and len(target) > num:
-        #         target[num].click()
-        # elif self.__type == 't':
-        #     c = self.__splitCommand(',')
-        #     if len(c) > 3:
-        #         target, num = self.__searchFor(c)
-        #         text = c[3]
-        #         if target and len(target) > num:
-        #             target[num].send_keys(text)
-        # elif self.__type == 'x':
-        #     self.__browser.execute_script(self.__cmd)
-        # elif self.__type == 's':
-        #     c = self.__splitCommand(',')
-        #     if(len(c) > 1):
-        #         w = int(c[0])
-        #         h = int(c[1])
-        #         self.__browser.set_window_size(w,h)
-        # elif self.__type == 'p':
-        #     c = self.__splitCommand(',')
-        #     if len(c) > 1:
-        #         x = int(c[0])
-        #         y = int(c[1])
-        #         self.__browser.set_window_position(x,y)
-        # elif self.__type == 'b':
-        #     self.__browser.back()
-        # elif self.__type == 'f':
-        #     self.__browser.forward()
-        # elif self.__type == 'i':
-        #     t = int(self.__cmd)
-        #     self.__browser.implicit_wait(t)
+
     def getType(self):
         return self.__type
 

@@ -1,0 +1,99 @@
+NOTE:
+    ALL ARGUMENTS WITH (int) FOLLOWING THEIR NAMES MUST HAVE
+    INTEGER PARAMETERS TO AVOID A PROGRAM CRASH
+
+u:
+    Go to url
+    ARGS:
+        url:
+            The url to go to. Only use http:// for now
+
+c:
+    Click something
+    ARGS:
+        search_method:
+            This is what function the program will use to search.
+            Possible Values:
+
+        search_pattern:
+            This is what the function will use to search. Make sure
+            the format is in accordance with the previous parameter
+
+        object_index (int):
+            This function searches for all elements that match the
+            above parameters. You can omit this parameter to click
+            the first element the function finds.
+
+x:
+    Execute JavaScript code
+    ARGS:
+        scr:
+            The script to execute. This cannot be over multiple lines!
+
+m:
+    Maximize the browser window
+    ARGS:
+        NONE
+
+w:
+    Wait x milliseconds
+    ARGS:
+        ms (int):
+            The number of milliseconds to wait for.
+
+t:
+    Type some text into an element
+    ARGS:
+    search_method:
+        This is what function the program will use to search.
+        Possible Values:
+
+    search_pattern:
+        This is what the function will use to search. Make sure
+        the format is in accordance with the previous parameter
+
+    object_index (int):
+        This function searches for all elements that match the
+        above parameters. Unlike the click command, you cannot omit
+        this parameter. To search for the first element it finds,
+        pass 0 to this command.
+
+    text:
+        This is the text that will be sent to the program. This text
+        cannot span multiple lines.
+
+s:
+    Set the size of the window
+    ARGS:
+        width (int):
+            The width the window should be
+        height (int):
+            The height the window should be
+
+p:
+    Set the position of the window
+    ARGS:
+        x (int):
+            The x coordinate of the window
+        y (int):
+            The y coordinate of the window
+
+b:
+    Go back one page
+    ARGS:
+        NONE
+
+f:
+    Go forward one page
+    ARGS:
+        NONE
+
+e:
+    Close the browser
+    ARGS:
+        NONE
+    Note:
+        This command will only be executed if it is the last
+        command in the commands file. The only purpose of this
+        command is to bypass the user having to interact with
+        the program after it is finished executing.
